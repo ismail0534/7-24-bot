@@ -21,7 +21,7 @@ exports.run = (client, message, args) => {
 			  return text;
 		}
 	} else {
-		message.reply('Bu komutu kullanmak için gerekli izine sahip değilsin. (Emirhan Saraç)')
+		message.reply('Bu komutu kullanmak için gerekli izine sahip değilsin.
 	}
 };
 
