@@ -14,7 +14,7 @@ exports.run = (client, message, params) => {
     .setColor(0x00AE86)
     .setTimestamp()
     .setAuthor(message.author.username, message.author.avatarURL)
-    .setDescription('Özel mesajlarını kontrol et. :postbox:');
+    .setDescription('Tüm Komutları Yolladım ! :iphone: :comet: ');
     message.channel.sendEmbed(ozelmesajkontrol) }
   } else {
     let command = params[0];
