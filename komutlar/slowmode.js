@@ -29,6 +29,6 @@ exports.conf = {
 
 exports.help = {
   name: 'yavaşmod',
-  description: 'Kanalı Kaç Saniyede O Kişi Mesaj Atmasını Ayarlarsınız.',
+  description: 'Yavaş Mesaj Atma Sağlar.',
   usage: 'sarıl'
 };
