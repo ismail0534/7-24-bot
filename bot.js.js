@@ -188,3 +188,47 @@ message.guild.createChannel(`Kütüphanesi: Discord.js`, 'voice')
     
 }
 });
+
+client.on("message", async message => {
+
+    let cont = message.content.slice(prefix.length).split(" ")
+    let args = cont.slice(1)
+    if (message.content.startsWith(prefix + 'otorol')) {
+    let rol = message.mentions.roles.first() //|| message.guild.roles.get(args.join(' '))
+    if (!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send(':no_entry: Otorol ayarlamak için `Rolleri Yönet` yetkisine sahip olman gerek.')
+    let newRole;
+    let tworole;
+    if (!rol) return message.channel.send(':no_entry: Otorol ayarlamanız için bir rol etiketlemeniz gerek. k-otorol @Üye #kanal`')
+    else newRole = message.mentions.roles.first().id
+    let isim = message.mentions.roles.first().name  
+    let otorolkanal = message.mentions.channels.first();
+    if (!otorolkanal) return message.channel.send(':no_entry: Otorol ayarlamanız için bir rol etiketlemeniz gerek. `k-otorol @Üye #kanal`')
+    db.set(`otorolisim_${message.guild.id}`, isim)
+    db.set(`otorolKanal_${message.guild.id}`, message.mentions.channels.first().id).then(i => {
+    db.set(`autoRole_${message.guild.id}`, newRole).then(otorol => {
+    if (!message.guild.roles.get(newRole)) return message.channel.send(":no_entry: Etiketlediğiniz rol bulunamadı, etiketlediğiniz rolün etiketlenebilirliğinin aktif olduğundan emin olunuz.")
+      message.channel.send(`Otorol, <@&${newRole}> mesaj kanalı <#${i}> olarak ayarlandı.`)
+   
+  })  
+});        
+    }
+})
+
+client.on('guildMemberAdd', async member => {
+  const i = await db.fetch(`arc_${member.guild.id}`);
+    const rol = await db.fetch(`autoRole_${member.guild.id}`);
+    //   let msj = await db.fetch(`otorol-mesaj_${member.guild.id}`)
+      let role = member.guild.roles.get(rol).name
+      //member.guild.channels.get(i).send(msj.replace('${uye}', `${member}`).replace('${rol}', `${role}`))
+ member.guild.channels.get(i).send(`${member} adlı kullancıya \`${role}\` rolü verildi. Hoşgeldin **${member}**`) 
+try {
+  
+  member.addRole(member.guild.roles.get(rol))
+} catch (e)  {
+  
+  if (!rol && !i) return
+  
+  console.log(`${member.guild.name} adlı sunucuda otorol hatası var`)
+  
+}
+  });
