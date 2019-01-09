@@ -118,3 +118,73 @@ client.login(process.env.BOT_TOKEN);
         return message.channel.sendEmbed(embed);
     }
     });
+
+client.on('message', async message => {
+  const ms = require('ms');
+  const args = message.content.slice(prefix.length).trim().split(/ +/g);
+  const command = args.shift().toLowerCase();
+  let u = message.mentions.users.first() || message.author;
+  if (command === "botpaneltemizle") {
+ if (!message.guild.channels.find(channel => channel.name === "Bot Kullanımı")) return message.channel.send(" Bot Panel ayarlanmamış.")
+   if (!message.member.hasPermission('ADMINISTRATOR'))
+  return message.channel.send(" Yetkin bulunmuyor.");
+    const a = message.guild.channels.find(channel => channel.name === "Bot Kullanımı").delete()
+      if(!a) return console.log("guildStats")
+      const b = message.guild.channels.find(channel => channel.name === `Bellek Kullanımı: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`).delete()
+      if(!b) return console.log("guildStatsMember")
+      const c = message.guild.channels.find(channel => channel.name === `Kullanıcılar: ${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}`).delete()
+      if(!c) return console.log("guildStatsBot")
+      const d = message.guild.channels.find(channel => channel.name === `Toplam Kanal: ${client.channels.size.toLocaleString()}`).delete() //|| message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-1}`).delete() || message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-1}`).delete() || message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-2}`).delete()
+      if(!d) return console.log("guildStatsChannel")
+         const e = message.guild.channels.find(channel => channel.name === `Ping: ${client.ping}`).delete() //|| message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-1}`).delete() || message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-1}`).delete() || message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-2}`).delete()
+      if(!e) return console.log("guildStatsChannel")
+            const f = message.guild.channels.find(channel => channel.name === `Yapımcım: Emirhan Saraç`).delete() //|| message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-1}`).delete() || message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-1}`).delete() || message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-2}`).delete()
+      if(!f) return console.log("guildStatsChannel")
+               const g = message.guild.channels.find(channel => channel.name === `Kütüphanesi: Discord.js`).delete() //|| message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-1}`).delete() || message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-1}`).delete() || message.guild.channels.find(channel => channel.name === `Kanal sayısı: ${message.guild.channels.size-2}`).delete()
+      if(!g) return console.log("guildStatsChannel")
+      message.channel.send(" Kanallar temizlendi.")
+    }
+  if (command === "botpanel") {
+  if (message.guild.channels.find(channel => channel.name === "Bot Kullanımı")) return message.channel.send(" Bot Paneli Zaten Ayarlanmış.")
+  message.channel.send(`Bot Bilgi Kanallarının kurulumu başlatılsın mı? başlatılacak ise **evet** yazınız.`)
+      if (!message.member.hasPermission('ADMINISTRATOR'))
+  return message.channel.send(" Yetkin bulunmuyor.");
+      message.channel.awaitMessages(response => response.content === 'evet', {
+        max: 1,
+        time: 10000,
+        errors: ['time'],
+      })
+    .then((collected) => {
+   message.guild.createChannel('Bot Kullanımı', 'category', [{
+  id: message.guild.id,
+  deny: ['SPEAK'],
+  deny: ['CONNECT']  
+}]);
+        
+ message.guild.createChannel(`Bellek Kullanımı: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, 'voice')
+.then(channel =>
+ channel.setParent(message.guild.channels.find(channel => channel.name === "Bot Kullanımı")));
+message.guild.createChannel(`Kullanıcılar: ${client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}`, 'voice')
+.then(channel =>
+       channel.setParent(message.guild.channels.find(channel => channel.name === "Bot Kullanımı")));
+message.guild.createChannel(`Sunucular: ${client.guilds.size.toLocaleString()}  `, 'voice')
+.then(channel =>
+             channel.setParent(message.guild.channels.find(channel => channel.name === "Bot Kullanımı")));
+message.guild.createChannel(`Toplam Kanal: ${client.channels.size.toLocaleString()}`, 'voice')
+.then(channel =>
+             channel.setParent(message.guild.channels.find(channel => channel.name === "Bot Kullanımı")));
+message.guild.createChannel(`Ping: ${client.ping}`, 'voice')
+.then(channel =>
+                   channel.setParent(message.guild.channels.find(channel => channel.name === "Bot Kullanımı")));
+message.guild.createChannel(`Yapımcım: FI`, 'voice')
+.then(channel =>
+                   channel.setParent(message.guild.channels.find(channel => channel.name === "Bot Kullanımı")));
+message.guild.createChannel(`Kütüphanesi: Discord.js`, 'voice')
+.then(channel =>
+ channel.setParent(message.guild.channels.find(channel => channel.name === "Bot Kullanımı")));
+  message.channel.send("Bot Bilgi Paneli Ayarlandı!")
+
+        })    
+    
+}
+});
