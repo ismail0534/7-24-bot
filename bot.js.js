@@ -232,11 +232,3 @@ try {
   
 }
   });
-
-client.on('guildMemberAdd', async member => {
-  
-  let tag = await db.fetch(`tag_${member.guild.id}`);
-  let tagyazi;
-  if (tag == null) tagyazi = member.setNickname(`${member.user.username}`)
-  else tagyazi = member.setNickname(`${tag} | ${member.user.username}`)
-});
