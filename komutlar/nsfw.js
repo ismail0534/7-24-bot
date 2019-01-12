@@ -1,28 +1,28 @@
-const Discord = require('discord.js');
-const superagent = require('superagent');
-
-
+const Discord = require('discord.js')
 exports.run = (client, msg, args) => {
-  if (msg.channel.nsfw === true) {
-    superagent.get('https://nekobot.xyz/api/image')
-    .query({ type: 'pgif'})
-    .end((err, response) => {
-      msg.channel.send({ file: response.body.message });
-    });
-  } else {
-    msg.channel.send("Bu kanal bir NSFW kanalı değil!")
-  }
+ if(msg.channel.nsfw || msg.channel.type === 'dm'){
+   let embed = new Discord.RichEmbed()
+   .setTitle(':underage: +18')
+   .setColor("#36393F")
+   .setImage(("https://cdn.boobbot.us/4k/4k"+ Math.floor(Math.random() * 1460)+".jpg"))
+   msg.channel.send(embed)
+}
+ else{
+       msg.channel.send({embed: {
+color: Math.floor(Math.random() * (0xFFFFFF + 1)),
+description: ('Bu kanal NSFW kanalı değil!')
+ }})
+ }
 };
+ exports.conf = {
+   enabled: true,
+   guildOnly: false,
+   aliases: ['4k'],
+   permLevel: 0
+ };
 
-exports.conf = {
-  enabled: true,
-  guildOnly: true,
-  aliases: [],
-  permLevel: 0
-};
-
-exports.help = {
-  name: 'nsfw-gif',
-  description: 'NSFW Gif Atar',
-  usage: 'nsfw'
-};
+ exports.help = {
+   name: 'hd',
+   description: 'NSFW bir resim gösterir.',
+   usage: 'nsfw'
+ };
