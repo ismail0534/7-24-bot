@@ -22,7 +22,7 @@ description: ('Bu kanal NSFW kanalı değil!')
  };
 
  exports.help = {
-   name: 'hd',
+   name: 'nsfw',
    description: 'NSFW bir resim gösterir.',
    usage: 'nsfw'
  };
